@@ -70,7 +70,7 @@ const Navbar = () => {
           }}
           to={"/favorite"}
         >
-          Favorite
+          Favorites
         </Link>
       </div>
       <div className="flex items-center gap-8">
