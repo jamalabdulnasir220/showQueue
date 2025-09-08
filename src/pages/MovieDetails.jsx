@@ -77,7 +77,7 @@ const MovieDetails = () => {
       <p className="text-lg mt-20 font-medium">Your Favorite Cast</p>
       <div className="overflow-x-auto no-scrollbar mt-8 pb-4">
         <div className="flex items-center gap-4 w-max px-4">
-          {show.movie?.casts.slice(0, 12).map((cast, index) => (
+          {show.movie?.casts?.slice(0, 12).map((cast, index) => (
             <div key={index} className="flex flex-col items-center text-center">
               <img
                 className="rounded-full h-20 md:h-20 aspect-square object-cover"
