@@ -50,7 +50,7 @@ const Navbar = () => {
             scrollTo(0, 0);
             setIsOpen(false);
           }}
-          to={"/"}
+          to={"/admin"}
         >
           Theatres
         </Link>
