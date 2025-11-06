@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { dummyShowsData } from "../../assets/assets";
 import Loading from "../../components/Loading";
 import Title from "../../components/admin/Title";
-import { CheckIcon, StarIcon } from "lucide-react";
+import { CheckIcon, DeleteIcon, StarIcon } from "lucide-react";
 import { convertToK } from "../../utils/convertToK";
 
 const AddShows = () => {
@@ -14,30 +14,29 @@ const AddShows = () => {
   const [showPrice, setShowPrice] = useState("");
 
   const handleAddDateTime = () => {
-    if(!dateTimeInput) return 
+    if (!dateTimeInput) return;
     const [date, time] = dateTimeInput.split("T");
     if (!date || !time) return;
 
     setDateTimeSelection((prev) => {
-      const times = prev[date] || []
+      const times = prev[date] || [];
       if (!times.includes(time)) {
-        return {...prev, [date]: [...times, time]}
+        return { ...prev, [date]: [...times, time] };
       }
       return prev;
-    })
-
-  }
+    });
+  };
 
   const handleRemoveDateTime = (date, time) => {
     setDateTimeSelection((prev) => {
-      const filteredTimes = prev[date].filter(t => t !== time)
+      const filteredTimes = prev[date].filter((t) => t !== time);
       if (filteredTimes.length === 0) {
-        const {[date]: _, ...rest} = prev
-        return rest
+        const { [date]: _, ...rest } = prev;
+        return rest;
       }
-      return {...prev, [date]: filteredTimes}
-    })
-  }
+      return { ...prev, [date]: filteredTimes };
+    });
+  };
 
   const fetchNowPlayingMovies = () => {
     setNowPlayingMovies(dummyShowsData);
@@ -126,20 +125,36 @@ const AddShows = () => {
         </div>
       </div>
       {/* Display Selected Times */}
-      {
-        Object.keys(dateTimeSelection).length > 0 && (
-          <div
-          className="mt-6"
-          >
-            <h2 className="mb-2">Selected Date - Time</h2>
-            <ul className="space-y-3">
-              {
-                Object.entries()
-              }
-            </ul>
-          </div>
-        )
-      }
+      {Object.keys(dateTimeSelection).length > 0 && (
+        <div className="mt-6">
+          <h2 className="mb-2">Selected Date - Time</h2>
+          <ul className="space-y-3">
+            {Object.entries(dateTimeSelection).map(([date, times]) => (
+              <li key={date}>
+                <div className="font-medium">{date}</div>
+                <div className="flex flex-wrap gap-2 mt-1 text-sm">
+                  {times.map((time) => (
+                    <div
+                      key={time}
+                      className="border border-primary px-2 py-1 flex items-center rounded"
+                    >
+                      <span>{time}</span>
+                      <DeleteIcon
+                        onClick={() => handleRemoveDateTime(date, time)}
+                        width={15}
+                        className="ml-2 text-red-500 hover:text-red-700 cursor-pointer"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <button className="bg-primary text-white px-8 py-2 mt-6 rounded hover:bg-primary/90 transition-all cursor-pointer">
+        Add Show
+      </button>
     </>
   ) : (
     <Loading />
